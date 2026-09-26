@@ -1,0 +1,46 @@
+{
+  "appName": "F-Droid M3 Store",
+  "versionName": "1.0.0",
+  "versionCode": 100,
+  "defaultRepo": {
+    "name": "清华大学开源软件镜像站 (TUNA)",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/fdroid/repo/",
+    "fingerprint": "43238D512C1E5EB2D6569F4A3AFBF5523418B82E0A3ED1552770ABB9A9C9CCAB",
+    "indexV1Jar": "index-v1.jar",
+    "indexV1Json": "index-v1.json",
+    "indexV2Json": "index-v2.json",
+    "iconsDir": "icons-640/",
+    "enabled": true
+  },
+  "repositories": [
+    {
+      "id": "tuna_fdroid",
+      "name": "清华大学开源软件镜像站 (TUNA)",
+      "url": "https://mirrors.tuna.tsinghua.edu.cn/fdroid/repo/",
+      "fingerprint": "43238D512C1E5EB2D6569F4A3AFBF5523418B82E0A3ED1552770ABB9A9C9CCAB",
+      "enabled": true
+    }
+  ],
+  "m3theme": {
+    "colorPrimary": "#0061A4",
+    "onPrimary": "#FFFFFF",
+    "primaryContainer": "#D1E4FF",
+    "onPrimaryContainer": "#001D36",
+    "colorSecondary": "#535F70",
+    "colorTertiary": "#6B5778",
+    "colorBackground": "#FDFCFF",
+    "colorSurface": "#FDFCFF",
+    "colorSurfaceVariant": "#DFE2EB",
+    "colorOutline": "#73777F",
+    "cornerRadiusCard": "16dp",
+    "cornerRadiusButton": "20dp",
+    "cornerRadiusChip": "8dp"
+  },
+  "settings": {
+    "preferredIndexProtocol": "v1_jar",
+    "autoCheckUpdate": true,
+    "verifyFingerprint": true,
+    "downloadPath": "/sdcard/Download/FDroidM3/",
+    "maxConcurrentDownloads": 3
+  }
+}

@@ -46,19 +46,8 @@ fn verify_jar_fingerprint(jar_path, expected_fingerprint)
     return true
 end fn
 
-fn fetch_repo_index(repo_url, expected_fingerprint, callback_event)
-    // Fetch index-v1.jar or index-v2.json from repository
-    // repo_url: Base repository URL (e.g. https://mirrors.tuna.tsinghua.edu.cn/fdroid/repo/)
-
-    s index_url = repo_url + "index-v1.jar"
-    s save_dir = "$sdcard/FDroidCache"
-    s jar_path = save_dir + "/index-v1.jar"
-    s json_path = save_dir + "/index-v1.json"
-
-    // Async HTTP Download index-v1.jar
-    hdd(index_url, jar_path, true, download_id)
-
-    // Verify fingerprint and extract index-v1.json
+fn process_downloaded_index(save_dir, jar_path, json_path, expected_fingerprint)
+    // Callback helper called after hdd download finishes
     call(fdroid.verify_jar_fingerprint, jar_path, expected_fingerprint, fp_valid)
     if(fp_valid == true)
     {
@@ -74,6 +63,26 @@ fn fetch_repo_index(repo_url, expected_fingerprint, callback_event)
     {
         tw("警告：仓库证书指纹不匹配，拒绝加载数据！")
     }
+end fn
+
+fn fetch_repo_index(repo_url, expected_fingerprint, callback_event)
+    // Fetch index-v1.jar or index-v2.json from repository
+    // repo_url: Base repository URL (e.g. https://mirrors.tuna.tsinghua.edu.cn/fdroid/repo/)
+
+    s index_url = repo_url + "index-v1.jar"
+    s save_dir = "$sdcard/FDroidCache"
+    s jar_path = save_dir + "/index-v1.jar"
+    s json_path = save_dir + "/index-v1.json"
+
+    // Async HTTP Download index-v1.jar with completion callback registration
+    hdd(index_url, jar_path, true, download_id)
+    tw("开始下载软件源索引 (index-v1.jar)...")
+
+    // In iApp event handler (on download_id finish), invoke process_downloaded_index
+    sss.download_jar_path = jar_path
+    sss.download_save_dir = save_dir
+    sss.download_json_path = json_path
+    sss.download_expected_fp = expected_fingerprint
 end fn
 
 fn parse_and_save_index_json(json_content_path)
@@ -146,26 +155,29 @@ end fn
 
 fn query_apps_by_category(category_name, page_num, limit, result_list)
     s offset = (page_num - 1) * limit
-    s sql = ""
+    s sql_query = ""
     if(category_name == "ALL" || category_name == "" || category_name == null)
     {
-        sql = "SELECT package_name, app_name, summary, icon_path, category, version_name, apk_name FROM apps LIMIT " + limit + " OFFSET " + offset
+        sql_query = "SELECT package_name, app_name, summary, icon_path, category, version_name, apk_name FROM apps LIMIT " + limit + " OFFSET " + offset
     }
     else
     {
         call(fdroid.escape_sql, category_name, safe_cat)
-        sql = "SELECT package_name, app_name, summary, icon_path, category, version_name, apk_name FROM apps WHERE category='" + safe_cat + "' LIMIT " + limit + " OFFSET " + offset
+        sql_query = "SELECT package_name, app_name, summary, icon_path, category, version_name, apk_name FROM apps WHERE category='" + safe_cat + "' LIMIT " + limit + " OFFSET " + offset
     }
 
-    fe(sss.fdroid_db, sql, query_result)
+    // Use sql() for SELECT query operations in iApp
+    sql(sss.fdroid_db, sql_query, query_result)
     // Convert SQL result cursor to list for UI listview
     sss.current_app_list = query_result
 end fn
 
 fn search_apps(keyword, result_list)
     call(fdroid.escape_sql, keyword, safe_kw)
-    s sql = "SELECT package_name, app_name, summary, icon_path, category, version_name, apk_name FROM apps WHERE app_name LIKE '%" + safe_kw + "%' OR summary LIKE '%" + safe_kw + "%' OR package_name LIKE '%" + safe_kw + "%' LIMIT 50"
-    fe(sss.fdroid_db, sql, query_result)
+    s sql_query = "SELECT package_name, app_name, summary, icon_path, category, version_name, apk_name FROM apps WHERE app_name LIKE '%" + safe_kw + "%' OR summary LIKE '%" + safe_kw + "%' OR package_name LIKE '%" + safe_kw + "%' LIMIT 50"
+
+    // Use sql() for SELECT query operations in iApp
+    sql(sss.fdroid_db, sql_query, query_result)
     sss.search_app_list = query_result
 end fn
 

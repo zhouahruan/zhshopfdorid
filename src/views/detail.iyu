@@ -1,0 +1,170 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FDFCFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header: Icon, Name, Author, Version -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/img_detail_icon"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_default_app" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/img_detail_icon"
+                android:layout_marginLeft="16dp"
+                android:orientation="vertical"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/tv_detail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="App Name"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1C1E" />
+
+                <TextView
+                    android:id="@+id/tv_detail_pkg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="com.example.app"
+                    android:textSize="12sp"
+                    android:textColor="#73777F"
+                    android:layout_marginTop="2dp" />
+
+                <TextView
+                    android:id="@+id/tv_detail_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="版本: 1.0.0 (100)"
+                    android:textSize="13sp"
+                    android:textColor="#535F70"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Action Button -->
+        <Button
+            android:id="@+id/btn_detail_download"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="下载并安装 (APK)"
+            android:textSize="15sp"
+            android:textColor="#FFFFFF"
+            android:background="#0061A4"
+            android:layout_marginBottom="16dp" />
+
+        <!-- App Metadata Card -->
+        <CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="#F7F9FF"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="应用信息"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#0061A4"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_detail_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="包大小: --"
+                    android:textSize="13sp"
+                    android:textColor="#43474E" />
+
+                <TextView
+                    android:id="@+id/tv_detail_sha256"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SHA-256: --"
+                    android:textSize="11sp"
+                    android:textColor="#73777F"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </CardView>
+
+        <!-- Description Card -->
+        <CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="#FDFCFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="详细介绍"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1C1E"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_detail_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="应用详细描述加载中..."
+                    android:textSize="14sp"
+                    android:textColor="#43474E"
+                    android:lineSpacingExtra="4dp" />
+            </LinearLayout>
+        </CardView>
+
+    </LinearLayout>
+
+    <code_iyu>
+        fn loading()
+            call(m3ui.apply_button_style, btn_detail_download, true)
+            // Retrieve item details passed via iApp activity extra
+            s pkg = sss.target_pkg
+            s title = sss.target_title
+            s apk_name = sss.target_apk_name
+            us(tv_detail_title, "text", title)
+            us(tv_detail_pkg, "text", pkg)
+        end fn
+
+        fn btn_detail_download_click()
+            call(fdroid.download_and_install_apk, "https://mirrors.tuna.tsinghua.edu.cn/fdroid/repo/", sss.target_apk_name, sss.target_title)
+        end fn
+    </code_iyu>
+</ScrollView>

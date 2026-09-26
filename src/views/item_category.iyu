@@ -1,0 +1,22 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
+
+    <TextView
+        android:id="@+id/tv_category_chip"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:text="Category"
+        android:textSize="13sp"
+        android:textColor="#43474E"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:background="#DFE2EB"
+        android:clickable="true"
+        android:focusable="true" />
+</LinearLayout>

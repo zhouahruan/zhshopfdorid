@@ -1,0 +1,205 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FDFCFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置与软件源管理"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#1A1C1E"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Current Repository Card -->
+        <CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="#F7F9FF"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前应用源"
+                    android:textSize="14sp"
+                    android:textColor="#535F70" />
+
+                <TextView
+                    android:id="@+id/tv_repo_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="清华大学开源软件镜像站 (TUNA)"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#0061A4"
+                    android:layout_marginTop="4dp" />
+
+                <TextView
+                    android:id="@+id/tv_repo_url"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="https://mirrors.tuna.tsinghua.edu.cn/fdroid/repo/"
+                    android:textSize="12sp"
+                    android:textColor="#43474E"
+                    android:layout_marginTop="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="软件源公钥指纹 (Fingerprint):"
+                    android:textSize="12sp"
+                    android:textColor="#73777F"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_repo_fingerprint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="43238D512C1E5EB2D6569F4A3AFBF5523418B82E0A3ED1552770ABB9A9C9CCAB"
+                    android:textSize="10sp"
+                    android:textColor="#0061A4"
+                    android:layout_marginTop="2dp" />
+
+                <Button
+                    android:id="@+id/btn_sync_repo"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="手动同步仓库索引 (index-v1.jar)"
+                    android:textSize="13sp"
+                    android:textColor="#FFFFFF"
+                    android:background="#0061A4"
+                    android:layout_marginTop="12dp" />
+            </LinearLayout>
+        </CardView>
+
+        <!-- Add Custom Repository Card -->
+        <CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="#FDFCFF"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="添加自定义 F-Droid 源"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1C1E"
+                    android:layout_marginBottom="12dp" />
+
+                <EditText
+                    android:id="@+id/et_new_repo_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:hint="输入软件源 URL (包含 http/https)"
+                    android:textSize="13sp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:background="#DFE2EB"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/et_new_repo_fp"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:hint="输入 SHA-256 Fingerprint (可选)"
+                    android:textSize="13sp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:background="#DFE2EB"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btn_add_repo"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="添加源并验证指纹"
+                    android:textSize="13sp"
+                    android:textColor="#001D36"
+                    android:background="#D1E4FF" />
+            </LinearLayout>
+        </CardView>
+
+        <!-- Cache & Storage Card -->
+        <CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="#FDFCFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="数据缓存管理"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1C1E"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/btn_clear_cache"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="清除本地 SQLite 索引与下载缓存"
+                    android:textSize="13sp"
+                    android:textColor="#BA1A1A"
+                    android:background="#FFDAD6" />
+            </LinearLayout>
+        </CardView>
+
+    </LinearLayout>
+
+    <code_iyu>
+        fn loading()
+            call(m3ui.apply_button_style, btn_sync_repo, true)
+            call(m3ui.apply_button_style, btn_add_repo, false)
+        end fn
+
+        fn btn_sync_repo_click()
+            s tuna_url = "https://mirrors.tuna.tsinghua.edu.cn/fdroid/repo/"
+            s tuna_fp = "43238D512C1E5EB2D6569F4A3AFBF5523418B82E0A3ED1552770ABB9A9C9CCAB"
+            call(fdroid.fetch_repo_index, tuna_url, tuna_fp, "on_index_downloaded")
+            tw("正在拉取清华大学镜像站最新 index-v1.jar...")
+        end fn
+
+        fn btn_clear_cache_click()
+            s clear_sql = "DELETE FROM apps"
+            fe(sss.fdroid_db, clear_sql)
+            tw("本地 SQLite 应用索引已重置缓存")
+        end fn
+    </code_iyu>
+</ScrollView>

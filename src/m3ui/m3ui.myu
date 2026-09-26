@@ -1,0 +1,95 @@
+// Material 3 UI Styling Module for iApp (裕语言 myu)
+// Providing M3 dynamic color palettes, rounded shape background drawables, elevated card styles, top bar and bottom bar styling.
+
+fn init_m3_theme()
+    // Define M3 Light Theme Color Scheme (HEX)
+    sss m3_color_primary = "#0061A4"
+    sss m3_color_on_primary = "#FFFFFF"
+    sss m3_color_primary_container = "#D1E4FF"
+    sss m3_color_on_primary_container = "#001D36"
+
+    sss m3_color_secondary = "#535F70"
+    sss m3_color_on_secondary = "#FFFFFF"
+    sss m3_color_secondary_container = "#D7E3F8"
+    sss m3_color_on_secondary_container = "#101C2B"
+
+    sss m3_color_surface = "#FDFCFF"
+    sss m3_color_on_surface = "#1A1C1E"
+    sss m3_color_surface_variant = "#DFE2EB"
+    sss m3_color_on_surface_variant = "#43474E"
+
+    sss m3_color_background = "#FDFCFF"
+    sss m3_color_on_background = "#1A1C1E"
+    sss m3_color_outline = "#73777F"
+    sss m3_color_outline_variant = "#C3C7D0"
+
+    sss m3_color_error = "#BA1A1A"
+    sss m3_color_error_container = "#FFDAD6"
+end fn
+
+fn apply_card_style(view_id, radius_dp, bg_color, elevation_dp)
+    // Dynamic GradientDrawable / CardView styling helper
+    // view_id: target view ID in iApp layout
+    // radius_dp: corner radius in dp
+    // bg_color: hex color code
+    // elevation_dp: shadow depth
+
+    // Convert dp to px in iApp
+    dp(radius_dp, px_radius)
+    dp(elevation_dp, px_elevation)
+
+    // Set background color with rounded corners
+    ngd(px_radius, bg_color, bg_drawable)
+    us(view_id, "background", bg_drawable)
+
+    // Set elevation shadow if view supports it
+    s(px_elevation > 0)
+    {
+        us(view_id, "elevation", px_elevation)
+    }
+end fn
+
+fn apply_chip_style(view_id, is_selected)
+    if(is_selected == true)
+    {
+        // Selected M3 Filter Chip
+        ngd(24, sss.m3_color_secondary_container, bg_drawable)
+        us(view_id, "background", bg_drawable)
+        us(view_id, "textcolor", sss.m3_color_on_secondary_container)
+    }
+    else
+    {
+        // Unselected M3 Filter Chip (Outlined style)
+        ngd(24, sss.m3_color_surface, sss.m3_color_outline, 1, bg_drawable)
+        us(view_id, "background", bg_drawable)
+        us(view_id, "textcolor", sss.m3_color_on_surface_variant)
+    }
+end fn
+
+fn apply_button_style(view_id, is_primary)
+    if(is_primary == true)
+    {
+        // Filled M3 Button
+        ngd(30, sss.m3_color_primary, bg_drawable)
+        us(view_id, "background", bg_drawable)
+        us(view_id, "textcolor", sss.m3_color_on_primary)
+    }
+    else
+    {
+        // Tonal / Secondary M3 Button
+        ngd(30, sss.m3_color_primary_container, bg_drawable)
+        us(view_id, "background", bg_drawable)
+        us(view_id, "textcolor", sss.m3_color_on_primary_container)
+    }
+end fn
+
+fn apply_top_app_bar(bar_view_id, title_view_id)
+    us(bar_view_id, "backgroundcolor", sss.m3_color_surface)
+    us(title_view_id, "textcolor", sss.m3_color_on_surface)
+end fn
+
+fn apply_search_bar_style(search_box_id)
+    // M3 Search Bar Container (Pill-shaped with rounded corners 28dp)
+    ngd(28, sss.m3_color_surface_variant, bg_drawable)
+    us(search_box_id, "background", bg_drawable)
+end fn

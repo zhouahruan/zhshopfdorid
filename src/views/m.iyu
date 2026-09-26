@@ -1,0 +1,119 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FDFCFF">
+
+    <!-- Material 3 Top Search Bar Bar Area -->
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:background="#FDFCFF">
+
+        <RelativeLayout
+            android:id="@+id/search_box"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#DFE2EB"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:id="@+id/img_search_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_search" />
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/img_search_icon"
+                android:layout_toLeftOf="@+id/btn_settings"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@null"
+                android:hint="搜索开源应用 (F-Droid)..."
+                android:textColorHint="#73777F"
+                android:textSize="14sp"
+                android:singleLine="true" />
+
+            <ImageView
+                android:id="@+id/btn_settings"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_settings" />
+        </RelativeLayout>
+
+        <!-- Material 3 Category Scroll Chips -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/ll_categories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!-- Dynamic Chips will be attached here -->
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <!-- Main Content List area -->
+    <SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/top_bar">
+
+        <ListView
+            android:id="@+id/lv_apps"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="12dp" />
+    </SwipeRefreshLayout>
+
+    <!-- iApp Yu Language Logic -->
+    <code_iyu>
+        fn loading()
+            // Called when layout activity loads
+            call(m3ui.init_m3_theme)
+            call(m3ui.apply_search_bar_style, 102) // Search box ID
+            call(fdroid.init_db)
+
+            // Load default apps from DB
+            call(fdroid.query_apps_by_category, "ALL", 1, 20)
+
+            // Populate category chips: 全部, 系统, 网络, 游戏, 媒体, 开发
+            sl(sss.category_list, "全部,系统,网络,游戏,媒体,开发", ",")
+        end fn
+
+        fn et_search_on_text_changed()
+            ug(et_search, "text", search_kw)
+            s(search_kw != "")
+            {
+                call(fdroid.search_apps, search_kw)
+            }
+        end fn
+
+        fn btn_settings_click()
+            uigo("settings.iyu")
+        end fn
+    </code_iyu>
+</RelativeLayout>

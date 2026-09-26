@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Automated Build Script for iApp M3UI F-Droid Store
-Validates project files, packages iApp .iapp archive, builds Android APK binary via Gradle,
+Validates project files, packages iApp .iapp archive, builds Android APK binary via Gradle Wrapper,
 and generates SHA-256 build checksums.
 """
 
@@ -67,18 +67,23 @@ def package_iapp():
     print(f" Successfully packaged iApp project: {OUTPUT_IAPP}")
 
 def build_apk():
-    print("\n=== [3/4] Building Android APK (Gradle) ===")
+    print("\n=== [3/4] Building Android APK (Gradle Wrapper) ===")
 
     # Sync src/ assets into app/src/main/assets/ for native iApp container
     assets_dir = os.path.join("app", "src", "main", "assets")
     os.makedirs(assets_dir, exist_ok=True)
     shutil.copy("src/config.json", os.path.join(assets_dir, "config.json"))
 
-    cmd = "./gradlew assembleRelease --no-daemon" if os.name != 'nt' else "gradlew.bat assembleRelease --no-daemon"
+    gradlew_cmd = "./gradlew" if os.name != 'nt' else "gradlew.bat"
+    if not os.path.exists("gradlew") and not os.path.exists("gradlew.bat"):
+        gradlew_cmd = "gradle"
+
+    cmd = f"{gradlew_cmd} assembleRelease --no-daemon"
+    print(f" Running Gradle command: {cmd}")
     res = subprocess.run(cmd, shell=True, text=True)
     if res.returncode != 0:
         print("Gradle assembleRelease failed, retrying assembleDebug...")
-        cmd_debug = "./gradlew assembleDebug --no-daemon" if os.name != 'nt' else "gradlew.bat assembleDebug --no-daemon"
+        cmd_debug = f"{gradlew_cmd} assembleDebug --no-daemon"
         res_debug = subprocess.run(cmd_debug, shell=True, text=True)
         if res_debug.returncode != 0:
             print("ERROR: Gradle build failed!")
